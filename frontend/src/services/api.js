@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://bnv-mern-assesment-2.onrender.com",  // must match backend port
+  baseURL: "https://bnv-mern-assesment-2.onrender.com/api",  // must match backend port
 });
 
 export const toggleUserStatus = (id, status) =>
