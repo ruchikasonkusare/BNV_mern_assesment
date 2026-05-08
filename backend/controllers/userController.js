@@ -27,7 +27,11 @@ const getUsers = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -40,7 +44,11 @@ const getUserById = async (req, res, next) => {
     }
     res.status(200).json({ success: true, data: user });
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -75,7 +83,11 @@ const searchUsers = async (req, res, next) => {
       },
     });
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -86,7 +98,11 @@ const createUser = async (req, res, next) => {
     const user = await User.create({ ...req.body, profileImage });
     res.status(201).json({ success: true, message: "User created successfully", data: user });
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -113,7 +129,11 @@ const updateUser = async (req, res, next) => {
 
     res.status(200).json({ success: true, message: "User updated successfully", data: updatedUser });
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -134,7 +154,11 @@ const deleteUser = async (req, res, next) => {
     await User.findByIdAndDelete(req.params.id);
     res.status(200).json({ success: true, message: "User deleted successfully" });
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -151,7 +175,11 @@ const exportToCSV = async (req, res, next) => {
     res.attachment("users.csv");
     res.send(csv);
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -187,7 +215,11 @@ const toggleStatus = async (req, res, next) => {
       data: user,
     });
   } catch (error) {
-    next(error);
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
