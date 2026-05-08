@@ -9,6 +9,8 @@ const errorHandler = require("./middlewares/errorHandler");
 dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 
 // Middleware
 app.use(cors({
@@ -25,11 +27,11 @@ app.use(errorHandler);
 
 // DB + Server Start
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(process.env.MONGO_URL )
   .then(() => {
     console.log("MongoDB Connected");
-    app.listen(process.env.PORT, () =>
-      console.log(`🚀 Server running on port ${process.env.PORT}`)
+    app.listen(PORT, () =>
+      console.log(`🚀 Server running on port ${PORT}`)
     );
   })
   .catch((err) => console.error("DB Error:", err));
