@@ -37,25 +37,34 @@
 //     );
 //   })
 //   .catch((err) => console.error("DB Error:", err));
+const dotenv = require("dotenv");
+dotenv.config();
 
 const express = require("express");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+const cors = require("cors");
 const path = require("path");
 
-dotenv.config();
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
-// ✅ MANUAL CORS — no cors package needed
+// ✅ USE BOTH — cors package + manual headers
+const corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+  preflightContinue: false,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // ✅ handle preflight
+
+// ✅ Manual headers as backup
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
   next();
 });
 
