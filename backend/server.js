@@ -15,12 +15,9 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 // const cors = require("cors");
 
-app.use(cors({
-  origin: "*",
-  methods: "*",
-  allowedHeaders: "*"
-}));
 
+app.use(cors());
+app.options("*", cors());
 
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
