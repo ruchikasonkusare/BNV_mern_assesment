@@ -2,7 +2,8 @@ import axios from "axios";
 // require("dotenv").config();
 
 const API = axios.create({
-  baseURL: 'https://bnv-mern-assesment-2.onrender.com/api',
+  // baseURL: 'https://bnv-mern-assesment-2.onrender.com/api
+  baseURL: "http://localhost:5000/api",
 });
 
 
