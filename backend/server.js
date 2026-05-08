@@ -12,8 +12,8 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: "http://localhost:5173",  // your React app URL
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: "",  
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 }));
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -21,7 +21,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Routes
 app.use("/api/users", userRoutes);
 
-// Error Handler (must be last)
 app.use(errorHandler);
 
 // DB + Server Start

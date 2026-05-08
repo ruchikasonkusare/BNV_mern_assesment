@@ -13,15 +13,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         ‹
       </button>
 
-      {[...Array(totalPages)].map((_, i) => (
-        <button
-          key={i + 1}
-          onClick={() => onPageChange(i + 1)}
-          className={`page-btn ${currentPage === i + 1 ? "active" : ""}`}
-        >
-          {i + 1}
-        </button>
-      ))}
+      <span className="page-number">{currentPage}</span>
 
       <button
         onClick={() => onPageChange(currentPage + 1)}

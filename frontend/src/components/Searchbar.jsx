@@ -3,29 +3,34 @@ import React, { useState } from "react";
 const SearchBar = ({ onSearch, onClear }) => {
   const [query, setQuery] = useState("");
 
-  const handleSearch = () => {
-    if (query.trim()) onSearch(query.trim());
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);
+    
+    if (value.trim()) {
+      onSearch(value.trim());
+    } else {
+      onClear();
+    }
   };
 
-  const handleClear = () => {
-    setQuery("");
-    onClear();
+  const handleSearchClick = () => {
+    if (query.trim()) {
+      onSearch(query.trim());
+    }
   };
 
   return (
     <div className="search-bar">
       <input
         type="text"
-        placeholder="Search by name, email, location..."
+        placeholder="Search"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+        onChange={handleChange}
+        onKeyDown={(e) => e.key === "Enter" && handleSearchClick()}
         className="search-input"
       />
-      <button onClick={handleSearch} className="btn btn-primary">Search</button>
-      {query && (
-        <button onClick={handleClear} className="btn btn-secondary">Clear</button>
-      )}
+      <button onClick={handleSearchClick} className="btn btn-search">Search</button>
     </div>
   );
 };

@@ -157,18 +157,33 @@ const exportToCSV = async (req, res, next) => {
 
 const toggleStatus = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ 
-        success: false, 
-        message: "User not found" 
+    const { id } = req.params;
+    const { status } = req.body;
+
+    // Validate status value
+    if (!status || !["Active", "InActive"].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid status. Must be 'Active' or 'InActive'",
       });
     }
-    user.status = req.body.status;
-    await user.save();
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
     res.status(200).json({
       success: true,
-      message: "Status updated",
+      message: "Status updated successfully",
       data: user,
     });
   } catch (error) {

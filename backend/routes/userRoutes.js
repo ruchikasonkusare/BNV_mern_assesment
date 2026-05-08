@@ -13,10 +13,10 @@ const {
 
 
 
-router.patch("/:id/status", toggleStatus);
-
 router.get("/export", exportToCSV);
 router.get("/search", searchUsers);
+router.patch("/:id/status", toggleStatus);
+
 router.get("/", getUsers);
 router.get("/:id", getUserById);
 router.post("/", createUser);        // ✅ plain JSON now

@@ -123,154 +123,118 @@ const AddEditPage = () => {
   return (
     <div className="form-page">
       <div className="form-card">
+        <div className="form-top-bar">MERN stack developer practical task</div>
         <h2 className="form-title">
           {isEdit ? "Edit User Details" : "Register Your Details"}
         </h2>
 
-        {/* Profile Image */}
-        <div className="profile-upload">
-          <div className="profile-preview">
-            {preview ? (
-              <img src={preview} alt="preview" className="preview-img" />
-            ) : (
-              <div className="preview-placeholder">📷</div>
-            )}
-          </div>
-          <label className="upload-label">
-            Select Your Profile
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="file-input"
-            />
-          </label>
-        </div>
-
-        <form onSubmit={handleSubmit} className="user-form">
-          <div className="form-row">
-            <div className="form-group">
-              <label>First Name</label>
-              <input
-                name="firstName"
-                placeholder="Enter FirstName"
-                value={form.firstName}
-                onChange={handleChange}
-                className={`form-input ${errors.firstName ? "input-error" : ""}`}
-              />
-              {errors.firstName && <span className="error-text">{errors.firstName}</span>}
+        <div className="form-body">   {/* ✅ add this wrapper */}
+          {/* profile upload */}
+          <div className="profile-upload">
+            <div className="profile-preview">
+              {preview ? (
+                <img src={preview} alt="preview" className="preview-img" />
+              ) : (
+                <div className="preview-placeholder">📷</div>
+              )}
             </div>
-
-            <div className="form-group">
-              <label>Last Name</label>
-              <input
-                name="lastName"
-                placeholder="Enter LastName"
-                value={form.lastName}
-                onChange={handleChange}
-                className={`form-input ${errors.lastName ? "input-error" : ""}`}
-              />
-              {errors.lastName && <span className="error-text">{errors.lastName}</span>}
-            </div>
+            {/* <label className="upload-label">
+              Select Your Profile
+              <input type="file" accept="image/*" onChange={handleImageChange} className="file-input" />
+            </label> */}
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label>Email Address</label>
-              <input
-                name="email"
-                type="email"
-                placeholder="Enter Email"
-                value={form.email}
-                onChange={handleChange}
-                className={`form-input ${errors.email ? "input-error" : ""}`}
-              />
-              {errors.email && <span className="error-text">{errors.email}</span>}
-            </div>
-
-            <div className="form-group">
-              <label>Mobile</label>
-              <input
-                name="mobile"
-                placeholder="Enter Mobile"
-                value={form.mobile}
-                onChange={handleChange}
-                className={`form-input ${errors.mobile ? "input-error" : ""}`}
-              />
-              {errors.mobile && <span className="error-text">{errors.mobile}</span>}
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label>Select Your Gender</label>
-              <div className="radio-group">
-                <label className="radio-label">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="Male"
-                    checked={form.gender === "Male"}
-                    onChange={handleChange}
-                  />
-                  Male
-                </label>
-                <label className="radio-label">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="Female"
-                    checked={form.gender === "Female"}
-                    onChange={handleChange}
-                  />
-                  Female
-                </label>
+          <form onSubmit={handleSubmit} className="user-form">
+            <div className="form-row">
+              <div className="form-group">
+                <label>First name</label>
+                <input name="firstName" placeholder="Enter FirstName" value={form.firstName} onChange={handleChange} className={`form-input ${errors.firstName ? "input-error" : ""}`} />
+                {errors.firstName && <span className="error-text">{errors.firstName}</span>}
               </div>
-              {errors.gender && <span className="error-text">{errors.gender}</span>}
+              <div className="form-group">
+                <label>Last Name</label>
+                <input name="lastName" placeholder="Enter LastName" value={form.lastName} onChange={handleChange} className={`form-input ${errors.lastName ? "input-error" : ""}`} />
+                {errors.lastName && <span className="error-text">{errors.lastName}</span>}
+              </div>
             </div>
 
-            <div className="form-group">
-              <label>Select Your Status</label>
-              <select
-                name="status"
-                value={form.status}
-                onChange={handleChange}
-                className={`form-input ${errors.status ? "input-error" : ""}`}
-              >
-                <option value="">Select...</option>
-                <option value="Active">Active</option>
-                <option value="InActive">InActive</option>
-              </select>
-              {errors.status && <span className="error-text">{errors.status}</span>}
+            <div className="form-row">
+              <div className="form-group">
+                <label>Email address</label>
+                <input name="email" type="email" placeholder="Enter Email" value={form.email} onChange={handleChange} className={`form-input ${errors.email ? "input-error" : ""}`} />
+                {errors.email && <span className="error-text">{errors.email}</span>}
+              </div>
+              <div className="form-group">
+                <label>Mobile</label>
+                <input name="mobile" placeholder="Enter Mobile" value={form.mobile} onChange={handleChange} className={`form-input ${errors.mobile ? "input-error" : ""}`} />
+                {errors.mobile && <span className="error-text">{errors.mobile}</span>}
+              </div>
             </div>
-          </div>
 
-          <div className="form-row">
-            <div className="form-group full-width">
-              <label>Enter Your Location</label>
-              <input
-                name="location"
-                placeholder="Enter Your Location"
-                value={form.location}
-                onChange={handleChange}
-                className={`form-input ${errors.location ? "input-error" : ""}`}
-              />
-              {errors.location && <span className="error-text">{errors.location}</span>}
+            <div className="form-row">
+              <div className="form-group">
+                <label>Select Your Gender</label>
+                <div className="radio-group">
+                  <label className="radio-label">
+                    <input type="radio" name="gender" value="Male" checked={form.gender === "Male"} onChange={handleChange} /> Male
+                  </label>
+                  <label className="radio-label">
+                    <input type="radio" name="gender" value="Female" checked={form.gender === "Female"} onChange={handleChange} /> Female
+                  </label>
+                </div>
+                {errors.gender && <span className="error-text">{errors.gender}</span>}
+              </div>
+              <div className="form-group">
+                <label>Select Your Status</label>
+                <select name="status" value={form.status} onChange={handleChange} className={`form-input ${errors.status ? "input-error" : ""}`}>
+                  <option value="">Select...</option>
+                  <option value="Active">Active</option>
+                  <option value="InActive">InActive</option>
+                </select>
+                {errors.status && <span className="error-text">{errors.status}</span>}
+              </div>
             </div>
-          </div>
 
-          <div className="form-footer">
-            <button type="button" onClick={() => navigate("/")} className="btn btn-secondary">
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-primary" disabled={loading}>
+
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Profile Image</label>
+                        
+                <input
+                  type="file"
+                  name="profileImage"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className={`form-input ${errors.profileImage ? "input-error" : ""}`}
+                />
+            
+                {form.profileImage && (
+                  <small className="file-name">
+                    File selected ✔
+                  </small>
+                )}
+            
+                {errors.profileImage && (
+                  <span className="error-text">{errors.profileImage}</span>
+                )}
+              </div>
+              <div className="form-group">
+                <label>Enter Your Location</label>
+                <input name="location" placeholder="Enter Your Location" value={form.location} onChange={handleChange} className={`form-input ${errors.location ? "input-error" : ""}`} />
+                {errors.location && <span className="error-text">{errors.location}</span>}
+              </div>
+            </div>
+
+            <button type="submit" className="btn-submit" disabled={loading}>
               {loading ? "Saving..." : isEdit ? "Update" : "Submit"}
             </button>
-          </div>
-        </form>
+          </form>
+        </div>  {/* end form-body */}
       </div>
     </div>
   );
 };
+
 
 export default AddEditPage;

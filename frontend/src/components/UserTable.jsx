@@ -6,8 +6,9 @@ import ConfirmModal from "./ConfirmModal";
 
 const UserTable = ({ users, onRefresh }) => {
   const navigate = useNavigate();
-  const [deleteId, setDeleteId] = useState(null);
-  const [openMenu, setOpenMenu] = useState(null);
+  const [deleteId, setDeleteId]       = useState(null);
+  const [openMenu, setOpenMenu]       = useState(null);
+  const [openStatus, setOpenStatus]   = useState(null);
 
   const handleDelete = async () => {
     try {
@@ -16,24 +17,26 @@ const UserTable = ({ users, onRefresh }) => {
       setDeleteId(null);
       onRefresh();
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to delete user");
+      toast.error("Failed to delete user");
       setDeleteId(null);
     }
   };
 
-  const handleToggleStatus = async (user) => {
-    const newStatus = user.status === "Active" ? "InActive" : "Active";
+  const handleStatusChange = async (user, newStatus) => {
     try {
       await toggleUserStatus(user._id, newStatus);
       toast.success(`Status changed to ${newStatus}`);
+      setOpenStatus(null);
       onRefresh();
     } catch (error) {
       toast.error("Failed to update status");
     }
   };
 
-  const toggleMenu = (id) => {
-    setOpenMenu(openMenu === id ? null : id);
+  // Close dropdowns when clicking outside
+  const handleOutsideClick = () => {
+    setOpenMenu(null);
+    setOpenStatus(null);
   };
 
   return (
@@ -46,7 +49,7 @@ const UserTable = ({ users, onRefresh }) => {
         />
       )}
 
-      <div className="table-wrapper">
+      <div className="table-wrapper" onClick={handleOutsideClick}>
         <table className="user-table">
           <thead>
             <tr>
@@ -62,7 +65,9 @@ const UserTable = ({ users, onRefresh }) => {
           <tbody>
             {users.length === 0 ? (
               <tr>
-                <td colSpan="7" className="no-data">No users found</td>
+                <td colSpan="7" className="no-data">
+                  No users found
+                </td>
               </tr>
             ) : (
               users.map((user, index) => (
@@ -71,51 +76,81 @@ const UserTable = ({ users, onRefresh }) => {
                   <td>{user.firstName} {user.lastName}</td>
                   <td>{user.email}</td>
                   <td>{user.gender === "Male" ? "M" : "F"}</td>
+
+                  {/* STATUS DROPDOWN */}
                   <td>
-                    {/* Clickable status badge — toggles on click */}
-                    <span
-                      className={`status-badge ${user.status === "Active" ? "status-active" : "status-inactive"}`}
-                      onClick={() => handleToggleStatus(user)}
-                      title="Click to toggle status"
-                    >
-                      {user.status} ∨
-                    </span>
+                    <div className="status-wrapper">
+                      <span
+                        className={`status-badge ${user.status === "Active" ? "status-active" : "status-inactive"}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setOpenStatus(openStatus === user._id ? null : user._id);
+                          setOpenMenu(null);
+                        }}
+                      >
+                        {user.status}
+                      </span>
+                      {openStatus === user._id && (
+                        <div className="status-dropdown" onClick={(e) => e.stopPropagation()}>
+                          <div
+                            className="status-option"
+                            onClick={() => handleStatusChange(user, "Active")}
+                          >
+                            Active
+                          </div>
+                          <div
+                            className="status-option"
+                            onClick={() => handleStatusChange(user, "InActive")}
+                          >
+                            InActive
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </td>
+
+                  {/* PROFILE IMAGE */}
                   <td>
                     {user.profileImage ? (
                       <img src={user.profileImage} alt="profile" className="profile-thumb" />
                     ) : (
                       <div className="profile-avatar">
-                        {user.firstName[0]}{user.lastName[0]}
+                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="default" className="profile-thumb" />
                       </div>
                     )}
                   </td>
+
+                  {/* ACTION DROPDOWN */}
                   <td className="action-cell">
                     <button
                       className="three-dot-btn"
-                      onClick={() => toggleMenu(user._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpenMenu(openMenu === user._id ? null : user._id);
+                        setOpenStatus(null);
+                      }}
                     >
                       ⋮
                     </button>
                     {openMenu === user._id && (
-                      <div className="dropdown-menu">
+                      <div className="dropdown-menu" onClick={(e) => e.stopPropagation()}>
                         <button
-                          onClick={() => { navigate(`/view/${user._id}`); setOpenMenu(null); }}
                           className="dropdown-item view-item"
+                          onClick={() => { navigate(`/view/${user._id}`); setOpenMenu(null); }}
                         >
-                          👁 View
+                          <span className="item-icon view-icon">●</span> View
                         </button>
                         <button
-                          onClick={() => { navigate(`/edit/${user._id}`); setOpenMenu(null); }}
                           className="dropdown-item edit-item"
+                          onClick={() => { navigate(`/edit/${user._id}`); setOpenMenu(null); }}
                         >
-                          ✏️ Edit
+                          <span className="item-icon edit-icon">✎</span> Edit
                         </button>
                         <button
-                          onClick={() => { setDeleteId(user._id); setOpenMenu(null); }}
                           className="dropdown-item delete-item"
+                          onClick={() => { setDeleteId(user._id); setOpenMenu(null); }}
                         >
-                          🗑 Delete
+                          <span className="item-icon delete-icon">■</span> Delete
                         </button>
                       </div>
                     )}

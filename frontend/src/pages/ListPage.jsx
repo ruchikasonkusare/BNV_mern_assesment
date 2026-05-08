@@ -13,7 +13,7 @@ const ListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages]   = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const limit = 10;
+  const limit = 6;
 
   const fetchUsers = async (page = 1) => {
     try {
